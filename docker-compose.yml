@@ -1,0 +1,39 @@
+services:
+  home-app:
+    build:
+      context: ./home
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=https://fakestoreapi.com
+      - NEXT_PUBLIC_CART_URL=http://localhost:3001
+      - NEXT_PUBLIC_HOME_URL=http://localhost:3000
+    networks:
+      - micro-frontend-network
+    volumes:
+      - ./home:/app
+      - /app/node_modules
+      - /app/.next
+
+  cart-app:
+    build:
+      context: ./cart
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_HOME_URL=http://localhost:3000
+      - NEXT_PUBLIC_CART_URL=http://localhost:3001
+    networks:
+      - micro-frontend-network
+    volumes:
+      - ./cart:/app
+      - /app/node_modules
+      - /app/.next
+
+networks:
+  micro-frontend-network:
+    driver: bridge
