@@ -25,7 +25,7 @@ Bu proje iki ayrı mikro-frontend uygulamasından oluşur:
 
 ```bash
 # Repository'yi klonlayın
-git clone <repo-url>
+git clone https://github.com/ferhaterciyes/Multi-Zone-Architecture
 cd next-js-multi-zones
 
 # Development ortamını başlatın
