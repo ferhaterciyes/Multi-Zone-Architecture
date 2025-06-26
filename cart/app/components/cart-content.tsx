@@ -3,7 +3,7 @@
 import { removeFromCart, clearCart, loadCart, setCartItems } from '../features/cartSlice'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import Modal from '../components/Modal'
+import Modal from './Modal'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { getZoneUrl, encodeCartData, decodeCartData } from '../utils/multizone'
 
