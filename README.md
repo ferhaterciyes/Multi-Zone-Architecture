@@ -12,12 +12,13 @@ Bu proje iki ayrı mikro-frontend uygulamasından oluşur:
 ## 🚀 Teknolojiler
 
 - **Next.js 15** (App Router)
-- **TypeScript**
-- **Tailwind CSS**
+- **TypeScript** (Strict Mode)
+- **Tailwind CSS** (Responsive Design)
 - **Redux Toolkit** (State Management)
 - **RTK Query** (API Management & Caching)
-- **React Hot Toast** (Notifications)
-- **Docker & Docker Compose**
+- **React Hot Toast** (Notifications & Error Handling)
+- **Docker & Docker Compose** (Containerization)
+- **Error Middleware** (Automatic Error Handling)
 
 ## 📦 Kurulum
 
@@ -26,7 +27,7 @@ Bu proje iki ayrı mikro-frontend uygulamasından oluşur:
 ```bash
 # Repository'yi klonlayın
 git clone https://github.com/ferhaterciyes/Multi-Zone-Architecture
-cd next-js-multi-zones
+cd Multi-Zone-Architecture
 
 # Development ortamını başlatın
 make dev
@@ -39,8 +40,8 @@ make docker-up
 
 ```bash
 # Repository'yi klonlayın
-git clone <repo-url>
-cd next-js-multi-zones
+git clone https://github.com/ferhaterciyes/Multi-Zone-Architecture
+cd Multi-Zone-Architecture
 
 # Her iki uygulama için dependencies yükleyin
 cd home && npm install
@@ -75,23 +76,26 @@ docker-compose down
 ## 🏛️ Proje Yapısı
 
 ```
-next-js-multi-zones/
+Multi-Zone-Architecture/
 ├── home/                 # Ana uygulama (ürün listeleme)
 │   ├── app/
 │   │   ├── features/     # Redux slices
-│   │   ├── services/     # API definitions
+│   │   ├── services/     # API definitions (RTK Query)
 │   │   ├── components/   # React bileşenleri
+│   │   ├── middleware/   # Error handling middleware
 │   │   └── ...
 │   ├── Dockerfile
 │   └── package.json
 ├── cart/                 # Sepet uygulaması
 │   ├── app/
 │   │   ├── features/     # Redux slices
-│   │   ├── component/    # React bileşenleri
+│   │   ├── components/   # React bileşenleri
+│   │   ├── middleware/   # Error handling middleware
 │   │   └── ...
 │   ├── Dockerfile
 │   └── package.json
 ├── docker-compose.yml    # Docker orchestration
+├── Makefile             # Development scripts
 └── README.md
 ```
 
@@ -102,7 +106,8 @@ next-js-multi-zones/
 - ✅ **Automatic Caching** (5 dakika client-side cache)
 - ✅ **Background Refetching** (Data freshness)
 - ✅ **Optimized Loading States** (RTK Query built-in)
-- ✅ **Error Handling & Retry Logic**
+- ✅ **Error Handling & Retry Logic** (RTK Query middleware)
+- ✅ **Automatic Error Notifications** (Toast messages)
 - ✅ Sepete ekleme/çıkarma (Redux Toolkit)
 - ✅ Responsive tasarım (Tailwind CSS)
 - ✅ Toast notifications (React Hot Toast)
@@ -113,6 +118,7 @@ next-js-multi-zones/
 - ✅ Ürün miktarı yönetimi
 - ✅ Toplam hesaplama (Real-time)
 - ✅ Sepeti temizleme (Modal onay ile)
+- ✅ **Error Handling Middleware** (Consistent error management)
 - ✅ LocalStorage persistence
 - ✅ URL parametresi ile veri transferi
 - ✅ Cross-app state synchronization
@@ -122,18 +128,22 @@ next-js-multi-zones/
 - 🎯 **Intelligent Caching**: Tag-based cache invalidation
 - 🔄 **Background Updates**: Automatic data freshness
 - ⚡ **Optimistic Updates**: UI immediately updates
-- 🛡️ **Error Resilience**: Built-in retry logic
+- 🛡️ **Error Resilience**: Built-in retry logic + custom middleware
 - 📊 **DevTools Integration**: Redux DevTools support
+- 🔔 **Automatic Error Notifications**: Toast messages for failed requests
+- 🎨 **User-Friendly Error Messages**: Türkçe hata mesajları
 
 ### Teknik Özellikler
 - ✅ **Multi-zone Architecture** (Independent deployment)
 - ✅ **RTK Query API Layer** (Centralized data fetching)
+- ✅ **Error Middleware Integration** (Automatic error handling)
 - ✅ **Independent Build Processes** (Micro-frontend pattern)
 - ✅ **Cross-app State Sync** (LocalStorage + URL params)
 - ✅ **Docker Containerization** (Production ready)
 - ✅ **Responsive UI/UX** (Mobile-first design)
 - ✅ **TypeScript Support** (Full type safety)
 - ✅ **Advanced Error Handling** (User-friendly error states)
+- ✅ **Optimized Import Strategy** (Type-only imports)
 
 ## 🎯 Kullanım
 
@@ -150,6 +160,7 @@ next-js-multi-zones/
 - **Sonraki ziyaretler**: Cache'den instant loading
 - **Background updates**: Otomatik data freshness
 - **Network optimization**: Request deduplication
+- **Error handling**: Otomatik hata yakalama ve bildirim
 
 ## 🔄 State Senkronizasyonu
 
@@ -174,20 +185,29 @@ next-js-multi-zones/
 ```bash
 # Development
 make dev          # Start both apps in development
-make home         # Start only home app
-make cart         # Start only cart app
+make install      # Install dependencies for both apps
+make build        # Build both applications
 
 # Docker
 make docker-up    # Start with Docker Compose
+make docker-up-bg # Start in background
 make docker-down  # Stop Docker containers
 make docker-logs  # View container logs
 
 # Utilities
-make clean        # Clean node_modules
-make install      # Install dependencies
+make clean        # Clean node_modules and build artifacts
+make status       # Show running processes and ports
 ```
 
 ## 🐛 Debug & Monitoring
+
+### Error Middleware
+```javascript
+// Error middleware otomatik olarak çalışır
+// RTK Query rejected action'ları yakalar
+// Toast notification gösterir
+// Console'a detaylı log yazdırır
+```
 
 ### Development Console Logs
 ```javascript
@@ -205,6 +225,7 @@ localStorage.getItem('cart')
 - **Chrome Redux DevTools** ile RTK Query state'ini görüntüleyin
 - **Network tab** ile API request'leri ve cache hit/miss durumlarını takip edin
 - **Console** ile RTK Query lifecycle events'leri izleyin
+- **Error Toast'ları** ile kullanıcı dostu hata bildirimleri
 
 ### Performance Monitoring
 ```javascript
@@ -213,6 +234,9 @@ console.log('Cache hit ratio:', cacheHits / totalRequests)
 
 // API response times
 console.log('Average response time:', averageResponseTime)
+
+// Error tracking
+console.log('Error middleware active:', middleware.isActive)
 ```
 
 ## 🚧 Geliştirme Notları
@@ -221,7 +245,9 @@ console.log('Average response time:', averageResponseTime)
 - **Features**: Redux slices (`/features`)
 - **Services**: RTK Query API definitions (`/services`)  
 - **Components**: React components (`/components`)
+- **Middleware**: Error handling middleware (`/middleware`)
 - **Hooks**: Custom Redux hooks (`/hooks`)
+- **Utils**: Utility functions (`/utils`)
 
 ### Best Practices
 - ✅ **TypeScript Strict Mode**: Full type safety
@@ -230,6 +256,8 @@ console.log('Average response time:', averageResponseTime)
 - ✅ **Error Boundaries**: Graceful error handling
 - ✅ **Loading States**: User experience optimization
 - ✅ **Cache Strategies**: Performance optimization
+- ✅ **Type-only Imports**: Bundle size optimization
+- ✅ **Middleware Pattern**: Centralized error handling
 
 ### Development Workflow
 1. **Hot Reload**: Instant development feedback
