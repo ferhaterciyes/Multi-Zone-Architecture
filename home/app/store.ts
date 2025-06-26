@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { fakeStoreApi } from './services/fakeStoreApi'
 import cartReducer from './features/cartSlice'
+import { rtkQueryErrorLogger } from './middleware/errorMiddleware'
 
 // Store factory for SSR
 export const makeStore = () => {
@@ -11,7 +12,9 @@ export const makeStore = () => {
       cart: cartReducer,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(fakeStoreApi.middleware),
+      getDefaultMiddleware()
+        .concat(fakeStoreApi.middleware)
+        .concat(rtkQueryErrorLogger),
   })
 
   setupListeners(store.dispatch)

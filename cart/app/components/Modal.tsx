@@ -1,12 +1,12 @@
 'use client'
 
-import React from 'react'
+import type { ReactNode } from 'react'
 
 interface ModalProps {
   isOpen: boolean
   onClose: () => void
   title?: string
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export default function Modal({ isOpen, onClose, title, children }: ModalProps) {
@@ -21,7 +21,7 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
         className="bg-white rounded p-6 max-w-md w-full"
         onClick={(e) => e.stopPropagation()}
       >
-        {title && <h2 className="text-xl font-bold mb-4">{title}</h2>}
+        {title && <h2 className="text-xl text-black font-bold mb-4">{title}</h2>}
         <div>{children}</div>
       </div>
     </div>
