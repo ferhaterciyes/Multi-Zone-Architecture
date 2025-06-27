@@ -20,7 +20,9 @@ export const getZoneUrl = (zone: 'home' | 'cart', path: string = '', params?: Re
 // Cart verilerini URL-safe format'a çevir
 export const encodeCartData = (cartItems: Product[]) => {
   try {
-    return encodeURIComponent(JSON.stringify(cartItems))
+    // Base64 encoding kullanarak daha güvenli taşıma
+    const jsonString = JSON.stringify(cartItems)
+    return btoa(unescape(encodeURIComponent(jsonString)))
   } catch (error) {
     console.error('Error encoding cart data:', error)
     return ''
@@ -30,9 +32,17 @@ export const encodeCartData = (cartItems: Product[]) => {
 // URL'den cart verilerini decode et
 export const decodeCartData = (encodedData: string): Product[] => {
   try {
-    return JSON.parse(decodeURIComponent(encodedData))
+    // Base64 decoding
+    const decodedString = decodeURIComponent(escape(atob(encodedData)))
+    return JSON.parse(decodedString)
   } catch (error) {
     console.error('Error decoding cart data:', error)
-    return []
+    // Eski format ile deneme (geriye uyumluluk)
+    try {
+      return JSON.parse(decodeURIComponent(encodedData))
+    } catch (fallbackError) {
+      console.error('Fallback decoding also failed:', fallbackError)
+      return []
+    }
   }
 }

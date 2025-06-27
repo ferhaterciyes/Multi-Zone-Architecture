@@ -29,17 +29,21 @@ export default function ProductList() {
     if (cartItemsParam) {
       try {
         const items = decodeCartData(cartItemsParam)
-        // URL'den gelen verileri direkt state'e yükle
-        dispatch(setCartItems(items))
-        // URL'i temizle
-        window.history.replaceState({}, '', window.location.pathname)
-        return
+        if (Array.isArray(items) && items.length >= 0) {
+          // URL'den gelen verileri direkt state'e yükle
+          dispatch(setCartItems(items))
+          // URL'i temizle
+          window.history.replaceState({}, '', window.location.pathname)
+          return
+        }
       } catch (error) {
         console.error('Error parsing cart items from URL:', error)
+        // URL'i temizle hatalı olduğu için
+        window.history.replaceState({}, '', window.location.pathname)
       }
     }
     
-    // URL'de veri yoksa localStorage'dan yükle
+    // URL'de veri yoksa veya hatalıysa localStorage'dan yükle
     dispatch(loadCart())
     // RTK Query prefetch (cache'e veri yükler)
     dispatch(fakeStoreApi.util.prefetch('getProducts', undefined, { force: false }))
@@ -85,7 +89,7 @@ export default function ProductList() {
       {/* Cart Navigation */}
       <div className="flex justify-end mb-6">
         <a
-          href={getZoneUrl('cart', '/cart', { items: encodeCartData(cartItems) })}
+          href={getZoneUrl('cart', '/', { items: encodeCartData(cartItems) })}
           className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 flex items-center gap-2"
           onClick={() => {
             // Cart verilerini localStorage'a kaydet (sync için)

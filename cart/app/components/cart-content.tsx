@@ -22,15 +22,21 @@ export default function CartPage() {
     if (itemsParam) {
       try {
         const items = decodeCartData(itemsParam)
-        // URL'den gelen verileri direkt state'e yükle
-        dispatch(setCartItems(items))
-        return
+        if (Array.isArray(items) && items.length >= 0) {
+          // URL'den gelen verileri direkt state'e yükle
+          dispatch(setCartItems(items))
+          // URL'i temizle
+          window.history.replaceState({}, '', window.location.pathname)
+          return
+        }
       } catch (error) {
         console.error('Error parsing items from URL:', error)
+        // URL'i temizle hatalı olduğu için
+        window.history.replaceState({}, '', window.location.pathname)
       }
     }
     
-    // URL'de veri yoksa localStorage'dan yükle
+    // URL'de veri yoksa veya hatalıysa localStorage'dan yükle
     dispatch(loadCart())
   }, [dispatch])
 
@@ -50,7 +56,7 @@ export default function CartPage() {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold">Sepetiniz boş</h1>
           <a
-            href={getZoneUrl('home', '', { cartItems: encodeCartData([]) })}
+            href={getZoneUrl('home', '/', { cartItems: encodeCartData([]) })}
             className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
           >
             ← Alışverişe Devam Et
@@ -65,7 +71,7 @@ export default function CartPage() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Sepetiniz</h1>
         <a
-          href={getZoneUrl('home', '', { cartItems: encodeCartData(cartItems) })}
+          href={getZoneUrl('home', '/', { cartItems: encodeCartData(cartItems) })}
           className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
         >
           ← Alışverişe Devam Et
